@@ -1,5 +1,5 @@
 /*
-This program helps customers order custom order from the choices cake, cupcakes, and cookies. v1.2.5.7
+This program helps customers order custom order from the choices cake, cupcakes, and cookies.
 */
 
 
@@ -11,15 +11,14 @@ This program helps customers order custom order from the choices cake, cupcakes,
 #include<vector>
 #include<string>
 #include<fstream>
-#include<cstdlib>
-#include<sstream>
 void mainMenu();
-void priceCake(int);
-void priceCupcake(int);
-void priceCalCookie(int);
+void priceCake();
+void priceCupcake();
+void priceCalCookie();
 void cakeMenu();
 void cupcakeMenu();
 void cookieMenu();
+
 using namespace std;
 
 int main() {
@@ -53,16 +52,14 @@ void mainMenu() {    //the main menu of the whole thing//
 }
 void cakeMenu() {    //the menu they get if cake is selected
 	ofstream outputFile;
-	srand((unsigned)time(0));
-	int r = 25 + (std::rand() % (70-23)+rand());
-	
-	outputFile.open(std::to_string(r)+".txt", ios::app);
+	outputFile.open("dankbakery.txt", ios::app);
 	string cakeFlavor, cakeIcing, cakeSpecial, customMessage;    //the different choices that they can use on cake//
 	int cakeAmount, choice, response; //saving the choices they make for the cake//
 	cout << "Please type in what flavor you would like:\n(We can do anything)\n";
-	cin >> cakeFlavor;
+	cin.ignore();
+getline(cin,cakeFlavor);
 	cout << "Please type in what kind of color icing would you like:\n";
-	cin >> cakeIcing;
+getline(cin,cakeIcing);
 	cout << "Would you like to have a custom message on this cake?\n";
 	cout << "Please enter 1 for a custom message.\n If not, please input 2 for.\n";
 	cin >> response;
@@ -85,22 +82,22 @@ void cakeMenu() {    //the menu they get if cake is selected
 	cout << "\"Icing\" for extra icing and \"Size\" for the large size, or no: ";
 	cin >> cakeSpecial;
 	cout << "\n\nYou have selected " << cakeFlavor << " flavor\n";//cake flavor//
-
+	
 	cout << "with " << cakeIcing << " colored icing\n"; //icing color//
-
+	
 	cout << "and you have " << cakeSpecial << " special order\n";
 	outputFile << "Cake ";
-	outputFile << "Order: " << endl << "		Flavor: " << cakeFlavor << endl;
+	outputFile << "Order: "<<endl<<"	Flavor: "<< cakeFlavor << endl;
 	outputFile << "		Icing: " << cakeIcing << endl;
-	outputFile << "		Large/Extra: " << cakeSpecial << endl;
+	outputFile <<"		Large/Extra "<<cakeSpecial<<endl;
 	outputFile << "		Custom Message: " << customMessage << endl << endl;
-
-
+	
+	
 	if (customMessage.empty())  //if the message is empty it will give a different output//
 	{
 		cout << "with no custom message\n\n";
-		priceCake(r);
-
+		priceCake();
+		
 	}
 	else
 	{
@@ -112,14 +109,14 @@ void cakeMenu() {    //the menu they get if cake is selected
 	{
 	case 1:
 		cout << "Thank you, your order has been placed!" << endl;
-		priceCake(r);
+		priceCake();
 		break;
 	case 2:
 		cout << "We apologize for any inconvenience we will now restart the ordering process" << endl;
 		mainMenu(); //starting again if they found any errors//
 		break;
 	}
-	
+	outputFile.close();
 }
 
 
@@ -128,9 +125,7 @@ void cupcakeMenu() {
 	string cupcakeIcing;
 	string cupcakeSpecial;
 	ofstream outputFile;
-	srand((unsigned)time(0));
-	int r = 25 + (std::rand() % (70 - 23) + rand());
-	outputFile.open(std::to_string(r) + ".txt", ios::app);
+	outputFile.open("dankbakery.txt", ios::app);
 	int choice; //for the switch statement later on//
 	cout << "Please type in what flavor would you like your cupcakes:\n(We can do anything)\n";//deciding the flavor//
 	cin.ignore(); //ignoring spaces//
@@ -145,30 +140,27 @@ void cupcakeMenu() {
 	cout << "If this is correct please enter 1 if not please enter 2\n\n";
 	cin >> choice;  //switch letting them read it all over and restarting if any faults are found//
 	outputFile << "Cupcake ";
-	outputFile << "Order: " << endl << "		Flavor: " << cupcakeFlavor << endl;
+	outputFile << "Order: "<<endl<<"	Flavor: " << cupcakeFlavor << endl;
 	outputFile << "		Icing: " << cupcakeIcing << endl;
 	outputFile << "		Special Request: " << cupcakeSpecial << endl;
 	switch (choice)
 	{
 	case 1:
 		cout << "Thank you, your order has been placed!" << endl;
-		priceCupcake(r);
+		priceCupcake();
 		break;
 	case 2:
 		cout << "We apologize for any inconvenience we will now restart the ordering process" << endl;
 		mainMenu();
 		break;
 	}
-	
+	outputFile.close();
 }
 
 void cookieMenu() {
 	string cookieShape, cookieType, cookieDesigns;  //variables for the corresponding custom cookie parts//
 	ofstream outputFile;
-	srand((unsigned)time(0));
-	int r = 25 + (std::rand() % (70 - 23) + rand());
-
-	outputFile.open(std::to_string(r) + ".txt", ios::app);
+	outputFile.open("dankbakery.txt", ios::app);
 	int choice; //for the later switch as before//
 	cout << "How would you like your cookies shaped?\n";  //outputing asking for their input of cookie shape//
 	cin.ignore(); //ignoring spacing on switch//
@@ -183,14 +175,14 @@ void cookieMenu() {
 	cout << "If this is correct please enter 1 if not please enter 2\n\n";
 	cin >> choice;
 	outputFile << "Cookie ";
-	outputFile << "Order: " << endl << "		Cookie Shape: " << cookieShape << endl;
+	outputFile << "Order: "<<endl<<"	Cookie Shape: " << cookieShape << endl;
 	outputFile << "		Cookie Type: " << cookieType << endl;
 	outputFile << "		Design: " << cookieDesigns << endl;
 	switch (choice) //switch after theyve read over their choices that restarts the program if any errors were made//
 	{
 	case 1:
 		cout << "Thank you, your order has been placed!" << endl;
-		priceCalCookie(r);
+		priceCalCookie();
 		break;
 	case 2:
 		cout << "We apologize for any inconvenience we will now restart the ordering process" << endl;
@@ -198,27 +190,18 @@ void cookieMenu() {
 		break;
 	}
 }
-void priceCake(int z) {
-	ofstream outputFile;
-	outputFile.open(std::to_string(z)+".txt", ios::app);
+void priceCake() {
 	double priceTotal[3] = { 49.99, 7.00, 4.99 };
 	cout << "You're total is " << "$" << priceTotal[0];
-	outputFile << "		Price: $" << priceTotal[0]<<endl;
 }
-void priceCupcake(int z) {
-	ofstream outputFile;
-	outputFile.open(std::to_string(z) + ".txt", ios::app);
+void priceCupcake() {
 	double priceTotal[3] = { 49.99, 7.00, 4.99 };
 	cout << "You're total is " << "$" << priceTotal[1];
-	outputFile << "		Price: $" << priceTotal[1]<<endl;
 }
 
-void priceCalCookie(int z) {
-	ofstream outputFile;
-	outputFile.open(std::to_string(z) + ".txt", ios::app);
+void priceCalCookie() {
 	double priceTotal[3] = { 49.99, 7.00, 4.99 };
 	cout << "You're total is " << "$" << priceTotal[2];
-	outputFile << "		Price: $" << priceTotal[3]<<endl;
 
 }
 
